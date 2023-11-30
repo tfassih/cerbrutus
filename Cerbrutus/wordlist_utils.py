@@ -4,7 +4,8 @@ import os
 class Wordlist:
     words = []
 
-    def __init__(self, path, words=[]):
+    def __init__(self, path, words=None):
+        words = [] if words is None else words
         if os.path.exists(path) and os.path.isfile(path):
             self.path = path
         else:
