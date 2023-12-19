@@ -64,11 +64,9 @@ class SFTPHandle(ClosingContextManager):
         using the default implementations of `read` and `write`, this
         method's default implementation should be fine also.
         """
-        readfile = getattr(self, "readfile", None)
-        if readfile is not None:
+        if (readfile := getattr(self, "readfile", None)) is not None:
             readfile.close()
-        writefile = getattr(self, "writefile", None)
-        if writefile is not None:
+        if (writefile := getattr(self, "writefile", None)) is not None:
             writefile.close()
 
     def read(self, offset, length):
@@ -89,8 +87,7 @@ class SFTPHandle(ClosingContextManager):
         :param int length: number of bytes to attempt to read.
         :return: data read from the file, or an SFTP error code, as a `str`.
         """
-        readfile = getattr(self, "readfile", None)
-        if readfile is None:
+        if (readfile := getattr(self, "readfile", None)) is None:
             return SFTP_OP_UNSUPPORTED
         try:
             if self.__tell is None:
@@ -123,8 +120,7 @@ class SFTPHandle(ClosingContextManager):
         :param str data: data to write into the file.
         :return: an SFTP error code like ``SFTP_OK``.
         """
-        writefile = getattr(self, "writefile", None)
-        if writefile is None:
+        if (writefile := getattr(self, "writefile", None)) is None:
             return SFTP_OP_UNSUPPORTED
         try:
             # in append mode, don't care about seeking

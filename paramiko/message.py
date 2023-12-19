@@ -135,8 +135,7 @@ class Message(object):
 
         :return: a 32-bit unsigned `int`.
         """
-        byte = self.get_bytes(1)
-        if byte == max_byte:
+        if (byte := self.get_bytes(1)) == max_byte:
             return util.inflate_long(self.get_binary())
         byte += self.get_bytes(3)
         return struct.unpack(">I", byte)[0]

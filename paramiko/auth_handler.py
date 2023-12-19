@@ -270,8 +270,7 @@ class AuthHandler(object):
         self._disconnect_service_not_available()
 
     def _parse_service_accept(self, m):
-        service = m.get_text()
-        if service == "ssh-userauth":
+        if (service := m.get_text()) == "ssh-userauth":
             self._log(DEBUG, "userauth is OK")
             m = Message()
             m.add_byte(cMSG_USERAUTH_REQUEST)
@@ -625,8 +624,7 @@ Error Message: {}
 
     def _parse_userauth_failure(self, m):
         authlist = m.get_list()
-        partial = m.get_boolean()
-        if partial:
+        if partial := m.get_boolean():
             self._log(INFO, "Authentication continues...")
             self._log(DEBUG, "Methods: " + str(authlist))
             self.transport.saved_exception = PartialAuthentication(authlist)

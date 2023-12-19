@@ -84,8 +84,7 @@ class BruteUtil:
         if self.creds_found:
             return
         # sys.stdout.write(f"\r{user}:{pwd}                     ")
-        auth_result = self.service.connect(self.ip, self.port, user, pwd)
-        if auth_result:
+        if auth_result := self.service.connect(self.ip, self.port, user, pwd):
             self.creds_found = True 
             time.sleep(2)
             print()

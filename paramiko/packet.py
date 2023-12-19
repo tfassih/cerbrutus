@@ -309,8 +309,7 @@ class Packetizer(object):
                 # on Linux, sometimes instead of socket.timeout, we get
                 # EAGAIN.  this is a bug in recent (> 2.6.9) kernels but
                 # we need to work around it.
-                arg = first_arg(e)
-                if arg == errno.EAGAIN:
+                if (arg := first_arg(e)) == errno.EAGAIN:
                     got_timeout = True
                 elif arg == errno.EINTR:
                     # syscall interrupted; try again
@@ -337,8 +336,7 @@ class Packetizer(object):
             except socket.timeout:
                 retry_write = True
             except socket.error as e:
-                arg = first_arg(e)
-                if arg == errno.EAGAIN:
+                if (arg := first_arg(e)) == errno.EAGAIN:
                     retry_write = True
                 elif arg == errno.EINTR:
                     # syscall interrupted; try again

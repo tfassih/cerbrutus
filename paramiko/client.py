@@ -394,8 +394,7 @@ class SSHClient(ClosingContextManager):
             server_hostkey_name = "[{}]:{}".format(hostname, port)
         our_server_keys = None
 
-        our_server_keys = self._system_host_keys.get(server_hostkey_name)
-        if our_server_keys is None:
+        if (our_server_keys := self._system_host_keys.get(server_hostkey_name)) is None:
             our_server_keys = self._host_keys.get(server_hostkey_name)
         if our_server_keys is not None:
             keytype = our_server_keys.keys()[0]

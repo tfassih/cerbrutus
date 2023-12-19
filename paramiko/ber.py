@@ -97,8 +97,7 @@ class BER(object):
         out = []
         ber = BER(data)
         while True:
-            x = ber.decode_next()
-            if x is None:
+            if (x := ber.decode_next()) is None:
                 break
             out.append(x)
         return out

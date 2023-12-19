@@ -1196,8 +1196,7 @@ class Channel(ClosingContextManager):
                 # this doesn't seem useful, but it is the documented behavior
                 # of Socket
                 raise socket.error("Socket is closed")
-            size = self._wait_for_send_window(size)
-            if size == 0:
+            if (size := self._wait_for_send_window(size)) == 0:
                 # eof or similar
                 return 0
             m.add_string(s[:size])
@@ -1220,8 +1219,7 @@ class Channel(ClosingContextManager):
         assert self.event.is_set()
         if self.event_ready:
             return
-        e = self.transport.get_exception()
-        if e is None:
+        if (e := self.transport.get_exception()) is None:
             e = SSHException("Channel closed.")
         raise e
 

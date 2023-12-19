@@ -286,8 +286,7 @@ class SSHConfig(object):
         found = False
         for domain in domains:
             candidate = "{}.{}".format(hostname, domain)
-            family_specific = _addressfamily_host_lookup(candidate, options)
-            if family_specific is not None:
+            if (family_specific := _addressfamily_host_lookup(candidate, options)) is not None:
                 # TODO: would we want to dig deeper into other results? e.g. to
                 # find something that satisfies PermittedCNAMEs when that is
                 # implemented?
@@ -563,8 +562,7 @@ def _addressfamily_host_lookup(hostname, options):
     :param options: `SSHConfigDict` instance w/ parsed options.
     :returns: ``getaddrinfo``-style tuples, or ``None``, depending.
     """
-    address_family = options.get("addressfamily", "any").lower()
-    if address_family == "any":
+    if (address_family := options.get("addressfamily", "any").lower()) == "any":
         return
     try:
         family = socket.AF_INET6

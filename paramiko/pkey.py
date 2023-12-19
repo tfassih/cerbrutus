@@ -367,8 +367,7 @@ class PKey(object):
             # unencryped: done
             return data
         # encrypted keyfile: will need a password
-        proc_type = headers["proc-type"]
-        if proc_type != "4,ENCRYPTED":
+        if (proc_type := headers["proc-type"]) != "4,ENCRYPTED":
             raise SSHException(
                 'Unknown private key structure "{}"'.format(proc_type)
             )
@@ -407,8 +406,7 @@ class PKey(object):
             raise SSHException("base64 decoding error: {}".format(e))
 
         # read data struct
-        auth_magic = data[:15]
-        if auth_magic != OPENSSH_AUTH_MAGIC:
+        if (auth_magic := data[:15]) != OPENSSH_AUTH_MAGIC:
             raise SSHException("unexpected OpenSSH key header encountered")
 
         cstruct = self._uint32_cstruct_unpack(data[15:], "sssur")
@@ -698,8 +696,7 @@ class PublicBlob(object):
         # Verify that the blob message first (string) field matches the
         # key_type
         m = Message(key_blob)
-        blob_type = m.get_text()
-        if blob_type != key_type:
+        if (blob_type := m.get_text()) != key_type:
             deets = "key type={!r}, but blob type={!r}".format(
                 key_type, blob_type
             )

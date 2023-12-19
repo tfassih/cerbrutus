@@ -26,9 +26,8 @@ __all__ = [
     "u",
 ]
 
-PY2 = sys.version_info[0] < 3
 
-if PY2:
+if PY2 := sys.version_info[0] < 3:
     string_types = basestring  # NOQA
     text_type = unicode  # NOQA
     bytes_types = str

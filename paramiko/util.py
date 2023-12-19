@@ -125,8 +125,7 @@ def bit_length(n):
         return n.bit_length()
     except AttributeError:
         norm = deflate_long(n, False)
-        hbyte = byte_ord(norm[0])
-        if hbyte == 0:
+        if (hbyte := byte_ord(norm[0])) == 0:
             return 1
         bitlen = len(norm) * 8
         while not (hbyte & 0x80):

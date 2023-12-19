@@ -154,8 +154,7 @@ class SFTPFile(BufferedFile):
         # while not closed, and haven't fetched past the current position,
         # and haven't reached EOF...
         while True:
-            offset = self._data_in_prefetch_buffers(self._realpos)
-            if offset is not None:
+            if (offset := self._data_in_prefetch_buffers(self._realpos)) is not None:
                 break
             if self._prefetch_done or self._closed:
                 break

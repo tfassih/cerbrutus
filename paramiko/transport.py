@@ -1008,11 +1008,9 @@ class Transport(threading.Thread, ClosingContextManager):
                 break
             elif start_ts + timeout < time.time():
                 raise SSHException("Timeout opening channel.")
-        chan = self._channels.get(chanid)
-        if chan is not None:
+        if (chan := self._channels.get(chanid)) is not None:
             return chan
-        e = self.get_exception()
-        if e is None:
+        if (e := self.get_exception()) is None:
             e = SSHException("Unable to open channel.")
         raise e
 
@@ -1052,10 +1050,9 @@ class Transport(threading.Thread, ClosingContextManager):
         if not self.active:
             raise SSHException("SSH session not active")
         port = int(port)
-        response = self.global_request(
+        if (response := self.global_request(
             "tcpip-forward", (address, port), wait=True
-        )
-        if response is None:
+        )) is None:
             raise SSHException("TCP forwarding request denied")
         if port == 0:
             port = response.get_int()
@@ -1781,8 +1778,7 @@ class Transport(threading.Thread, ClosingContextManager):
             the address of the remote host, if known, as a ``(str, int)``
             tuple.
         """
-        gp = getattr(self.sock, "getpeername", None)
-        if gp is None:
+        if (gp := getattr(self.sock, "getpeername", None)) is None:
             return "unknown", 0
         return gp()
 
@@ -1880,8 +1876,7 @@ class Transport(threading.Thread, ClosingContextManager):
         self._expected_packet = tuple(ptypes)
 
     def _verify_key(self, host_key, sig):
-        key = self._key_info[self.host_key_type](Message(host_key))
-        if key is None:
+        if (key := self._key_info[self.host_key_type](Message(host_key))) is None:
             raise SSHException("Unknown host key type")
         if not key.verify_ssh_sig(self.H, Message(sig)):
             raise SSHException(
@@ -2672,8 +2667,7 @@ class Transport(threading.Thread, ClosingContextManager):
         server_chanid = m.get_int()
         server_window_size = m.get_int()
         server_max_packet_size = m.get_int()
-        chan = self._channels.get(chanid)
-        if chan is None:
+        if (chan := self._channels.get(chanid)) is None:
             self._log(WARNING, "Success for unrequested channel! [??]")
             return
         self.lock.acquire()

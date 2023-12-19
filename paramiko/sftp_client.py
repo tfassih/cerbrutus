@@ -161,10 +161,9 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
         .. versionchanged:: 1.15
             Added the ``window_size`` and ``max_packet_size`` arguments.
         """
-        chan = t.open_session(
+        if (chan := t.open_session(
             window_size=window_size, max_packet_size=max_packet_size
-        )
-        if chan is None:
+        )) is None:
             return None
         chan.invoke_subsystem("sftp")
         return cls(chan)
@@ -608,8 +607,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
         t, msg = self._request(CMD_READLINK, path)
         if t != CMD_NAME:
             raise SFTPError("Expected name response")
-        count = msg.get_int()
-        if count == 0:
+        if (count := msg.get_int()) == 0:
             return None
         if count != 1:
             raise SFTPError("Readlink returned {} results".format(count))
@@ -632,8 +630,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
         t, msg = self._request(CMD_REALPATH, path)
         if t != CMD_NAME:
             raise SFTPError("Expected name response")
-        count = msg.get_int()
-        if count != 1:
+        if (count := msg.get_int()) != 1:
             raise SFTPError("Realpath returned {} results".format(count))
         return msg.get_text()
 

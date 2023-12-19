@@ -124,8 +124,7 @@ class HostKeys(MutableMapping):
         """
         with open(filename, "w") as f:
             for e in self._entries:
-                line = e.to_line()
-                if line:
+                if line := e.to_line():
                     f.write(line)
 
     def lookup(self, hostname):
@@ -220,11 +219,9 @@ class HostKeys(MutableMapping):
         :return:
             ``True`` if the key is associated with the hostname; else ``False``
         """
-        k = self.lookup(hostname)
-        if k is None:
+        if (k := self.lookup(hostname)) is None:
             return False
-        host_key = k.get(key.get_name(), None)
-        if host_key is None:
+        if (host_key := k.get(key.get_name(), None)) is None:
             return False
         return host_key.asbytes() == key.asbytes()
 
@@ -242,8 +239,7 @@ class HostKeys(MutableMapping):
         return len(self.keys())
 
     def __getitem__(self, key):
-        ret = self.lookup(key)
-        if ret is None:
+        if (ret := self.lookup(key)) is None:
             raise KeyError(key)
         return ret
 
