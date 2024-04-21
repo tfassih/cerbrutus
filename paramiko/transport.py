@@ -20,8 +20,6 @@
 """
 Core protocol implementation
 """
-
-from __future__ import print_function
 import os
 import socket
 import sys
