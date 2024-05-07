@@ -49,6 +49,7 @@ from paramiko.file import BufferedFile
 from paramiko.buffered_pipe import BufferedPipe, PipeTimeout
 from paramiko import pipe
 from paramiko.util import ClosingContextManager
+import math
 
 
 def open_only(func):
@@ -1306,7 +1307,7 @@ class Channel(ClosingContextManager):
             return 0
         if self.out_window_size == 0:
             # should we block?
-            if self.timeout == 0.0:
+            if math.isclose(self.timeout, 0.0, rel_tol=1e-09, abs_tol=0.0):
                 raise socket.timeout()
             # loop here in case we get woken up but a different thread has
             # filled the buffer

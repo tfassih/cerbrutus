@@ -26,6 +26,7 @@ import array
 import threading
 import time
 from paramiko.py3compat import PY2, b
+import math
 
 
 class PipeTimeout(IOError):
@@ -151,7 +152,7 @@ class BufferedPipe(object):
                 if self._closed:
                     return out
                 # should we block?
-                if timeout == 0.0:
+                if math.isclose(timeout, 0.0, rel_tol=1e-09, abs_tol=0.0):
                     raise PipeTimeout()
                 # loop here in case we get woken up but a different thread has
                 # grabbed everything in the buffer.
