@@ -21,13 +21,13 @@ banner = """
 
 def main():
     arg_parser = argparse.ArgumentParser(description="Python based network brute forcing tool!")
-    arg_parser.add_argument("Host", help=f"The host to connect to - in IP or VHOST/Domain Name form")
-    arg_parser.add_argument("Service", help=f"The service to brute force (currently implemented 'SSH')")
-    arg_parser.add_argument("-U", "--users", help=f"Either a single user, or the path to the file of users you wish to use", required=True)
-    arg_parser.add_argument("-P", "--passwords", help=f"Either a single password, or the path to the password list you wish to use", required=True)
-    arg_parser.add_argument("-p", "--port", help=f"The port you wish to target (only required if running on a non standard port)")
-    arg_parser.add_argument("-t", "--threads", help=f"Number of threads to use")
-    arg_parser.add_argument("-q", "--quiet", help=f"Do not print banner", nargs='*')
+    arg_parser.add_argument("Host", help="The host to connect to - in IP or VHOST/Domain Name form")
+    arg_parser.add_argument("Service", help="The service to brute force (currently implemented 'SSH')")
+    arg_parser.add_argument("-U", "--users", help="Either a single user, or the path to the file of users you wish to use", required=True)
+    arg_parser.add_argument("-P", "--passwords", help="Either a single password, or the path to the password list you wish to use", required=True)
+    arg_parser.add_argument("-p", "--port", help="The port you wish to target (only required if running on a non standard port)")
+    arg_parser.add_argument("-t", "--threads", help="Number of threads to use")
+    arg_parser.add_argument("-q", "--quiet", help="Do not print banner", nargs='*')
 
     args = arg_parser.parse_args()
     if args.quiet is None:
